@@ -22,7 +22,7 @@ Follow these steps to set up and use the Node.js Auto Swagger Doc Generator in y
 Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed on your machine.
 
 **Create a MongoDB Atlas Account (Optional)**:
-If you don't have a MongoDB server running locally, you can sign up for a free account on MongoDB Atlas and create a cluster [MangoDB]('https://cloud.mongodb.com/').
+If you don't have a MongoDB server running locally, you can sign up for a free account on MongoDB Atlas and create a cluster [MangoDB](https://cloud.mongodb.com/).
 
 Create a `.env` file with below
 
