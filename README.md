@@ -7,6 +7,7 @@ Streamline your API documentation process with the Node.js Auto Swagger Doc Gene
 - [Prerequisites](#prerequisites)
 - [Clone](#Clone)
 - [Installation](#Installation)
+- [Start Server](#Start-Server)
 - [Endpoints](#Endpoints)
     - [Authentication](#authentication)
     - [Users](#users)
@@ -34,6 +35,13 @@ Clone the repository and install the dependencies specified in your `package.jso
 cd nodejs-auto-swagger-doc-generator
 npm install
 ```
+### Start Server
+To access the application run the below command
+```sh
+node index.js
+```
+
+By running the above command `swagger-output.json` documentaion will be ready before the start of the appplication.
 
 ### Swagger Endpoint
 Endpoint is accessible at [http://localhost:3000/api-docs/](http://localhost:3000/api-docs/)
