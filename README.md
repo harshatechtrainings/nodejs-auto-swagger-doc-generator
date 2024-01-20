@@ -38,6 +38,8 @@ JWT_SECRET=<any random secret key>
 git clone https://github.com/harshatechtrainings/nodejs-auto-swagger-doc-generator.git
 ```
 
+Copy paste the `.env` file created above in this project
+
 ### Installation
 
 Clone the repository and install the dependencies specified in your `package.json`:
