@@ -1,0 +1,12 @@
+{
+  "security": {
+    "maxLoginAttempts": 3,
+    "accountLockDuration": 5,
+    "tokenexperiation":"1h",
+    "emailtokenexperiation":"1h"
+  },
+  "server": {
+    "port": 3000,
+    "hostname": "localhost"
+  }
+}
