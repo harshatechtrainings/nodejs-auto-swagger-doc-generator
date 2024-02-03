@@ -4,102 +4,106 @@ const User = require("../models/User");
 const { StatusMessage } = require("../utils/statusMessage");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
-
-
 exports.deleteUser = async (req, res) => {
-  /* 	#swagger.tags = ['Users']
+	/* 	#swagger.tags = ['Users']
         #swagger.description = 'Endpoint to delete User' */
-  /* #swagger.security = [{
+	/* #swagger.security = [{
             "bearerAuth": []
     }] */
- 
-  const { user } = req.params;
-  const { username, password } = req.body;
-  try {
-    const response = await this.simpleUserauthentication(username, password);
-    if (response) {
-      await User.deleteOne({ username: user });
-      res.status(200).json({ message: StatusMessage.SUCCESS });
-    }
-  } catch (error) {
-    res.status(500).json({ error: StatusMessage.INTERNAL_SERVER_ERROR });
-  }
+
+	const { user } = req.params;
+	const username = user;
+	console.log(user);
+	try {
+		const userResponse = await User.findOne({ username });
+		console.log(userResponse);
+		if (userResponse) {
+			const response = await User.deleteOne({ username: user });
+			if (response) {
+				res.status(200).json({ message: StatusMessage.SUCCESS });
+			}
+		}
+	} catch (error) {
+		console.log("error", error);
+		res.status(500).json({ error: StatusMessage.INTERNAL_SERVER_ERROR });
+	}
 };
 
 exports.fetchUsers = async (req, res) => {
-  /* 	#swagger.tags = ['Users']
+	/* 	#swagger.tags = ['Users']
         #swagger.description = 'Endpoint to fetch all Users' */
 
-  /* #swagger.security = [{
+	/* #swagger.security = [{
             "bearerAuth": []
     }] */
-  try {
-    /** implement authenticate before fetching the users */
-    const users = await User.find();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ error: StatusMessage.INTERNAL_SERVER_ERROR });
-  }
+	try {
+		/** implement authenticate before fetching the users */
+		const users = await User.find();
+		console.log(users);
+		res.status(200).json(users);
+	} catch (error) {
+		res.status(500).json({ error: StatusMessage.INTERNAL_SERVER_ERROR });
+	}
 };
 
 exports.findUserByUsername = async (req, res) => {
-  /* 	#swagger.tags = ['Users']
+	/* 	#swagger.tags = ['Users']
         #swagger.description = 'Endpoint to fetch Users by username' */
 
-  /* #swagger.security = [{
+	/* #swagger.security = [{
             "bearerAuth": []
     }] */
-  try {
-    const { username } = req.params;
-    const user = await User.findOne({ username });
+	try {
+		const { username } = req.params;
+		const user = await User.findOne({ username });
 
-    if (!user) {
-      return res.status(404).json({ error: StatusMessage.USER_NOT_FOUND });
-    }
+		if (!user) {
+			return res.status(404).json({ error: StatusMessage.USER_NOT_FOUND });
+		}
 
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ error: StatusMessage.INTERNAL_SERVER_ERROR });
-  }
+		res.status(200).json(user);
+	} catch (error) {
+		res.status(500).json({ error: StatusMessage.INTERNAL_SERVER_ERROR });
+	}
 };
 
 exports.updateUser = async (req, res) => {
-  /* 	#swagger.tags = ['Users']
+	/* 	#swagger.tags = ['Users']
         #swagger.description = 'Endpoint to update User by username' */
 
-  /* #swagger.security = [{
+	/* #swagger.security = [{
             "bearerAuth": []
     }] */
-  const { username } = req.params;
+	const { username } = req.params;
 
-  try {
-    req.body.lastupdated = new Date();
-    // Get the schema paths from the Mongoose model
-    const modelPaths = Object.keys(User.schema.paths);
+	try {
+		req.body.lastupdated = new Date();
+		// Get the schema paths from the Mongoose model
+		const modelPaths = Object.keys(User.schema.paths);
 
-    // Check if all keys in the request body are present in the model schema
-    const isValidFields = Object.keys(req.body).every((key) => modelPaths.includes(key));
+		// Check if all keys in the request body are present in the model schema
+		const isValidFields = Object.keys(req.body).every((key) => modelPaths.includes(key));
 
-    if (isValidFields) {
-      const updatedUser = await User.findOneAndUpdate(
-        { username: username },
-        {
-          $set: req.body,
-        },
-        { new: true }
-      );
+		if (isValidFields) {
+			const updatedUser = await User.findOneAndUpdate(
+				{ username: username },
+				{
+					$set: req.body,
+				},
+				{ new: true }
+			);
 
-      if (!updatedUser) {
-        return res.status(404).json({ error: StatusMessage.USER_NOT_FOUND });
-      }
+			if (!updatedUser) {
+				return res.status(404).json({ error: StatusMessage.USER_NOT_FOUND });
+			}
 
-      return res
-        .status(StatusCodes.OK)
-        .json({ status: ReasonPhrases.OK, message: StatusMessage.SUCCESS, data: { updatedUser } });
-    } else {
-      return res.status(404).json({ error: "Invalid body" });
-    }
-  } catch (error) {
-    res.status(500).json({ error: StatusMessage.INTERNAL_SERVER_ERROR });
-  }
+			return res
+				.status(StatusCodes.OK)
+				.json({ status: ReasonPhrases.OK, message: StatusMessage.SUCCESS, data: { updatedUser } });
+		} else {
+			return res.status(404).json({ error: "Invalid body" });
+		}
+	} catch (error) {
+		res.status(500).json({ error: StatusMessage.INTERNAL_SERVER_ERROR });
+	}
 };
